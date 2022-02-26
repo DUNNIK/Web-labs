@@ -1,0 +1,27 @@
+.main-carousel {
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+.main-carousel img {
+    display: block;
+    width: 400px;
+    height: auto;
+}
+.flickity-enabled {
+    width: 400px;
+}
+
+body {
+    margin-bottom: 10vh;
+    font-family: Arial, serif;
+    background-color: #2a2ad0;
+    line-height: 27px;
+}
+
+.main-carousel{
+    margin:0 25% 0 25%;
+    width:50%;
+}
+

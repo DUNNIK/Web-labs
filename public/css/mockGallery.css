@@ -1,0 +1,75 @@
+h1 {
+    font-size: 5vh;
+    text-align: center;
+}
+
+h2 {
+    font-size: 4vh;
+    font-style: italic;
+    text-align: center;
+}
+
+h3 {
+    font-size: 3.5vh;
+    text-align: center;
+    text-shadow: 0.5vh 1vh 1vh rgba(141, 150, 164, 0.6);
+}
+
+p, ul, ol, a, span {
+    font-size: 2.5vh;
+    line-height: 4.8vh;
+}
+
+pre {
+    font-size: 2.5vh;
+    line-height: 4vh;
+}
+
+html {
+    scroll-behavior: smooth;
+
+}
+
+body {
+    margin-bottom: 10vh;
+    font-family: Arial, serif;
+    background-color: #2a2ad0;
+    line-height: 27px;
+}
+
+.main {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: space-around;
+    padding: 3vh;
+}
+
+.main__loader, .fa {
+    margin: 2vh;
+    text-align: center;
+}
+
+.main__gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+    margin: 2vh;
+    padding: 1.5vh;
+}
+
+.main__more {
+    margin-bottom: 2%;
+    color: #0000ff;
+    background-color: #fcff19;
+    font-size: 3.5vh;
+    border: 0.25vh solid;
+    padding: 3vh;
+}
+
+button{
+    border-radius: 20px;
+}
+
+

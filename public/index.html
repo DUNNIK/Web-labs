@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Дунаев Никита М33051</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/sideNav.css">
+</head>
+<body>
+<header>
+    <nav>
+        <ul class="header__menu">
+            <li><a href="#about_me">Представление</a></li>
+            <li><a href="#my_code">Пример кода</a></li>
+            <li><a href="#my_achievements">Достижения</a></li>
+            <li><a href="#my_failures">Факапы</a></li>
+            <li><a href="#my_animal">Тотемное животное</a></li>
+            <li><a href="#favorite_quote">Любимая цитата</a></li>
+            <li><a href="#success_formula">Формула успеха</a></li>
+        </ul>
+        <div class="sidenav">
+            <a href="index.html">Главная</a>
+            <a href="todoList.html" title="tasks">ToDoList</a>
+            <a href="mockGallery.html" title="tasks">Mock Gallery</a>
+            <a href="slider.html" title="tasks">Slider</a>
+        </div>
+    </nav>
+
+    <section id="about_me" class="header__about_me">
+        <div class="header__logo">
+            <img src=/img/ава.jpg alt="аватарка" width="189" height="255">
+        </div>
+        <div class="header__text">
+            <div class="header__name">
+                <h1 class="name">Дунаев Никита Сергеевич</h1>
+            </div>
+            <div class="header__contacts">
+                <h2>Мои контакты</h2>
+                <ul class="contacts">
+                    <li><a href="https://vk.com/dunn1">Вконтакте</a></li>
+                    <li><a href="https://www.instagram.com/_dunnik">Инстаграм</a></li>
+                    <li><a href="https://t.me/dunaevnikita">Телеграм</a></li>
+                    <li><a href="https://github.com/DUNNIK">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+</header>
+<main>
+
+    <section id="my_code" class="main__my_code">
+        <h2>Мой код</h2>
+
+        <pre>
+                <code>
+    package com.itmo.java.basics.logic.impl;
+
+    import com.itmo.java.basics.exceptions.DatabaseException;
+    import com.itmo.java.basics.index.impl.TableIndex;
+    import com.itmo.java.basics.initialization.DatabaseInitializationContext;
+    import com.itmo.java.basics.logic.Database;
+    import com.itmo.java.basics.logic.Table;
+    import lombok.AllArgsConstructor;
+    import lombok.Builder;
+
+    import java.io.File;
+    import java.io.IOException;
+    import java.nio.file.Files;
+    import java.nio.file.Path;
+    import java.util.HashMap;
+    import java.util.Map;
+    import java.util.Optional;
+
+    @Builder
+    @AllArgsConstructor
+    public class DatabaseImpl implements Database {
+
+    private final String dbName;
+    private final Path databasePath;
+    private final Map
+    <String, Table> tables;
+
+    private DatabaseImpl(String dbName, Path databaseRoot) {
+    this.dbName = dbName;
+    databasePath = createDatabasePathFromRootPath(databaseRoot, dbName);
+    tables = new HashMap<>();
+    }
+
+    private static Path createDatabasePathFromRootPath(Path databaseRoot, String dbName) {
+    return Path.of(databaseRoot.toString() + File.separator +
+    dbName);
+    }
+
+    public static Database create(String dbName, Path databaseRoot) throws DatabaseException {
+    if (dbName == null || databaseRoot == null) {
+    throw new DatabaseException("Error assigning the name and path to the database.");
+    }
+    makeDatabaseDir(createDatabasePathFromRootPath(databaseRoot, dbName));
+    return new DatabaseImpl(dbName, databaseRoot);
+    }
+
+    public static Database initializeFromContext(DatabaseInitializationContext context) {
+    return DatabaseImpl.builder()
+    .dbName(context.getDbName())
+    .databasePath(context.getDatabasePath())
+    .tables(context.getTables())
+    .build();
+    }
+
+    @Override
+    public String getName() {
+    return dbName;
+    }
+
+    @Override
+    public void createTableIfNotExists(String tableName) throws DatabaseException {
+    if (tables.containsKey(tableName)) {
+    throw new DatabaseException("The specified key is not in the database.");
+    }
+    tables.put(tableName, createTable(tableName));
+    }
+
+    private Table createTable(String tableName) throws DatabaseException {
+    return TableImpl.create(tableName, databasePath, new TableIndex());
+    }
+
+    private static void makeDatabaseDir(Path databasePath) throws DatabaseException {
+    try {
+    Files.createDirectory(databasePath);
+    } catch (IOException e) {
+    throw new DatabaseException("IO: Directory creation error.", e);
+    }
+    }
+
+    @Override
+    public void write(String tableName, String objectKey, byte[] objectValue) throws DatabaseException {
+    Table table;
+    try {
+    table = searchTable(tableName);
+    } catch (Exception e) {
+    throw new DatabaseException(e);
+    }
+    table.write(objectKey, objectValue);
+    }
+
+    private Table searchTable(String tableName) throws DatabaseException {
+    if (tables.containsKey(tableName)) {
+    return tables.get(tableName);
+    }
+    throw new DatabaseException("The table for the specified key does not exist.");
+    }
+
+    @Override
+    public Optional
+    <byte[]> read(String tableName, String objectKey) throws DatabaseException {
+    Table table;
+    if (tableName == null) {
+    throw new DatabaseException("The value of the table cannot be null.");
+    }
+    table = searchTable(tableName);
+    return table.read(objectKey);
+    }
+
+    @Override
+    public void delete(String tableName, String objectKey) throws DatabaseException {
+    Table table;
+    if (tableName == null) {
+    throw new DatabaseException("The value of the table cannot be null.");
+    }
+    table = searchTable(tableName);
+    table.delete(objectKey);
+    }
+
+    }
+            </code>
+            </pre>
+    </section>
+    <section id="my_achievements" class="main__my_achievements">
+        <h2>Достижения</h2>
+        <div class="main__my_achievements__article">
+            <article>
+                <ol>
+                    <li>
+                        <dl>
+                            <dt class="main__third_course">Я доучился до третьего курса</dt>
+                            <dd class="main__without_bad_marks">Без троек и долгов</dd>
+                        </dl>
+                    </li>
+                    <li class="eating">Хорошо покушал</li>
+                </ol>
+            </article>
+        </div>
+    </section>
+    <section id="my_failures" class="main__my_failures">
+        <h2>Провалы</h2>
+        <dl>
+            <dt>Не путешествую</dt>
+            <dd>
+                <dl>
+                    <dt>Да, можно найти много отговорок</dt>
+                    <dd>Но тот, кто хочет, всегда найдет как</dd>
+                </dl>
+            </dd>
+        </dl>
+    </section>
+    <section id="my_animal">
+        <h2>Мое животное</h2>
+        <div class="main__real_animal">
+        <div class="main__real_volf">
+            <img src=/img/volf.jpg alt="волк" width="189" height="255">
+        </div>
+            <p>настоящий волк</p>
+        </div>
+        <div class="main__volf">
+            <pre>
+
+                            .d$$b
+                          .' TO$;\
+                         /  : TP._;
+                        / _.;  :Tb|
+                       /   /   ;j$j
+                   _.-"       d$$$$
+                 .' ..       d$$$$;
+                /  /P'      d$$$$P. |\
+               /   "      .d$$$P' |\^"l
+             .'           `T$P^"""""  :
+         ._.'      _.'                ;
+      `-.-".-'-' ._.       _.-"    .-"
+    `.-" _____  ._              .-"
+   -(.g$$$$$$$b.              .'
+     ""^^T$$$P^)            .(:
+       _/  -"  /.'         /:/;
+    ._.'-'`-'  ")/         /;/;
+ `-.-"..--""   " /         /  ;
+.-" ..--""        -'          :
+..--""--.-"         (\      .-(\
+  ..--""              `-\(\/;`
+    _.                      :
+                            ;`-
+                           :\
+                           ;  bug
+
+                </pre>
+        </div>
+    </section>
+    <section id="favorite_quote">
+        <h2>Моя любимая цитата</h2>
+        <q>Живи каждый день так, будто он последний в твоей жизни - ведь один из них таким и окажется.</q>
+    </section>
+    <section id="success_formula">
+        <h2>Формула успеха</h2>
+        <span>Теорема Пифагора: a<sup>2</sup> + b<sup>2</sup> = c<sup>2</sup></span>
+    </section>
+</main>
+<footer id="footer">
+    <h2>Мои контакты</h2>
+    <ul class="contacts">
+        <li><a href="https://vk.com/dunn1">Вконтакте</a></li>
+        <li><a href="https://www.instagram.com/_dunnik">Инстаграм</a></li>
+        <li><a href="https://t.me/dunaevnikita">Телеграм</a></li>
+        <li><a href="https://github.com/DUNNIK">GitHub</a></li>
+    </ul>
+</footer>
+</body>
+</html>
